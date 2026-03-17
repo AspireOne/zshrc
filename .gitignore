@@ -1,0 +1,8 @@
+# 1. Ignore everything
+*
+
+# 2. But don't ignore the .gitignore file itself (optional but recommended)
+!.gitignore
+
+# 3. Whitelist your specific file
+!.zshrc
