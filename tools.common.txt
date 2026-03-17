@@ -1,0 +1,4 @@
+# tools.common.txt
+curl -fsSL https://starship.rs/install.sh | sh -s -- -y -b "$HOME/.local/bin"
+curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+

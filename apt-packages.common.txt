@@ -1,0 +1,11 @@
+# Core
+build-essential
+
+# Shell
+zsh
+fzf
+ripgrep
+bat
+zoxide
+zsh-autosuggestions
+zsh-syntax-highlighting

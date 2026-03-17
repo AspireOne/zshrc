@@ -8,3 +8,6 @@
 !.config/
 !.config/starship/
 !.config/starship/*
+!tools-specific.common.txt
+!tools.common.txt
+!apt-packages.common.txt

@@ -1,0 +1,4 @@
+# tools-specific.common.txt
+yazi
+aichat
+lazygit

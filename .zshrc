@@ -64,23 +64,6 @@ function oxoget() {
       "$1"
 }
 
-# --- Bare dotfiles repo helper ---
-config() {
-    local gitdir="$HOME/.cfg"
-
-    if [ ! -d "$gitdir" ]; then
-        echo "config: $gitdir does not exist." >&2
-        echo "config: run: git clone --bare <your-dotfiles-repo-url> $gitdir" >&2
-        return 1
-    fi
-
-    git --git-dir="$gitdir" --work-tree="$HOME" "$@"
-}
-
-if [ ! -d "$HOME/.cfg" ]; then
-    echo "warning: dotfiles repo ~/.cfg is missing on this machine" >&2
-fi
-
 # --- pnpm ---
 export PNPM_HOME="$HOME/.local/share/pnpm"
 case ":$PATH:" in
@@ -109,22 +92,21 @@ if [[ $- == *i* ]]; then
     [ -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ] && \
         source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
-    # fzf integration: Debian/Ubuntu path first, fallback second
+    # fzf key bindings
     if [ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]; then
         source /usr/share/doc/fzf/examples/key-bindings.zsh
     elif [ -f /usr/share/fzf/key-bindings.zsh ]; then
         source /usr/share/fzf/key-bindings.zsh
     fi
 
-    if [ -f /usr/share/doc/fzf/examples/completion.zsh ]; then
+    # fzf completion
+    if [ -f /usr/share/zsh/vendor-completions/_fzf ]; then
+        source /usr/share/zsh/vendor-completions/_fzf
+    elif [ -f /usr/share/doc/fzf/examples/completion.zsh ]; then
         source /usr/share/doc/fzf/examples/completion.zsh
     elif [ -f /usr/share/fzf/completion.zsh ]; then
         source /usr/share/fzf/completion.zsh
     fi
-
-    # source syntax highlighting late
-    [ -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && \
-        source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
     # Word movement
     bindkey "^[[1;5C" forward-word        # Ctrl+Right
@@ -139,5 +121,24 @@ if [[ $- == *i* ]]; then
     # History search by prefix
     bindkey "^[[A" history-beginning-search-backward
     bindkey "^[[B" history-beginning-search-forward
+
+    # Optional manual tools reminder
+    if [ -f "$HOME/tools-specific.common.txt" ]; then
+        typeset -a missing_tools
+        missing_tools=()
+
+        while IFS= read -r tool; do
+            [ -n "$tool" ] || continue
+            command -v "$tool" >/dev/null 2>&1 || missing_tools+=("$tool")
+        done < <(grep -Ev '^[[:space:]]*($|#)' "$HOME/tools-specific.common.txt")
+
+        if (( ${#missing_tools[@]} > 0 )); then
+            echo "Optional tools not installed: ${missing_tools[*]}"
+        fi
+    fi
+
+    # Source syntax highlighting late
+    [ -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && \
+        source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 
