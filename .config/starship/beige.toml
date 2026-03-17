@@ -1,8 +1,7 @@
-# ~/.config/starship.toml
 add_newline = false
 command_timeout = 300
 
-format = "${env_var.STARSHIP_WSL}$directory$git_branch$git_state$git_status${env_var.VIRTUAL_ENV}$golang$docker_context$aws$cmd_duration$character"
+format = "${env_var.STARSHIP_PREFIX}$directory$git_branch$git_state$git_status${env_var.VIRTUAL_ENV}$golang$docker_context$aws$cmd_duration$character"
 # Primary: Beige  #EDE8D0  [web:16]
 # Secondary: Tan #D6B588  [web:16]
 # Light accent: Cream #FDFBD4 [web:24]
@@ -73,7 +72,7 @@ format = " [(${version} ($virtualenv))](fg:#FDFBD4)"
 variable = 'VIRTUAL_ENV'
 format = '[\(venv\)](fg:#F5B027) '
 
-[env_var.STARSHIP_WSL]
-variable = "STARSHIP_WSL"
+[env_var.STARSHIP_PREFIX]
+variable = "STARSHIP_PREFIX"
 style = "fg:#EDE8D0"
 format = "[$env_value ]($style)"
