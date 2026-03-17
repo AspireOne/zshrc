@@ -17,7 +17,6 @@ alias lgit='lazygit'
 alias cls='clear'
 alias bat='batcat'
 alias ag='antigravity'
-alias gh='"/mnt/c/Program Files/GitHub CLI/gh.exe"'
 
 # --- yazi (cd into selected dir on exit) ---
 function y() {
