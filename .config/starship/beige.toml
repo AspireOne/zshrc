@@ -1,0 +1,79 @@
+# ~/.config/starship.toml
+add_newline = false
+command_timeout = 300
+
+format = "${env_var.STARSHIP_WSL}$directory$git_branch$git_state$git_status${env_var.VIRTUAL_ENV}$golang$docker_context$aws$cmd_duration$character"
+# Primary: Beige  #EDE8D0  [web:16]
+# Secondary: Tan #D6B588  [web:16]
+# Light accent: Cream #FDFBD4 [web:24]
+
+[directory]
+truncation_length = 1
+fish_style_pwd_dir_length = 1
+truncate_to_repo = false
+truncation_symbol = ""
+style = "fg:#EDE8D0"
+format = "[$path]($style) "
+
+[git_branch]
+symbol = ""
+style = "fg:#D6B588"
+format = "[$symbol$branch]($style)"
+
+[git_state]
+style = "bold #D6B588"
+format = " [$state( $progress_current/$progress_total)]($style)"
+
+[git_status]
+use_git_executable = true
+ignore_submodules = true
+
+# Beige/tan-centric git status colors (still keeping conflict clearly “warning-ish”)
+format = "([$conflicted](fg:#b85c4a)[$staged](fg:#8a9a6b)[$modified](fg:#D6B588)[$untracked](fg:#FDFBD4)[$ahead_behind](fg:#bfa98a))"
+
+conflicted = " =$count"
+staged     = " +$count"
+modified   = " ~$count"
+untracked  = " ?$count"
+stashed    = ""
+
+ahead      = " ⇡$count"
+behind     = " ⇣$count"
+diverged   = " ⇕⇡${ahead_count}⇣${behind_count}"
+up_to_date = ""
+
+[golang]
+symbol = "🐹 "
+style = "fg:#D6B588"
+format = " [$symbol$version]($style)"
+
+[docker_context]
+symbol = "🐳 "
+style = "fg:#bfa98a"
+format = " [$symbol$context]($style)"
+
+[aws]
+symbol = "☁ "
+style = "fg:#EDE8D0"
+format = " [$symbol$profile(\\($region\\))]($style)"
+
+[cmd_duration]
+min_time = 2000
+style = "bold #D6B588"
+format = " [$duration]($style)"
+
+[character]
+success_symbol = " [❯](fg:#D6B588)"
+error_symbol   = " [❯](fg:#b85c4a)"
+
+[python]
+format = " [(${version} ($virtualenv))](fg:#FDFBD4)"
+
+[env_var.VIRTUAL_ENV]
+variable = 'VIRTUAL_ENV'
+format = '[\(venv\)](fg:#F5B027) '
+
+[env_var.STARSHIP_WSL]
+variable = "STARSHIP_WSL"
+style = "fg:#EDE8D0"
+format = "[$env_value ]($style)"

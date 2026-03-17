@@ -1,8 +1,10 @@
 # 1. Ignore everything
 *
 
-# 2. But don't ignore the .gitignore file itself (optional but recommended)
+# But this...
 !.gitignore
-
-# 3. Whitelist your specific file
+!bootstrap.sh
 !.zshrc
+!.config/
+!.config/starship/
+!.config/starship/beige.toml
