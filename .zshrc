@@ -17,6 +17,7 @@ alias lgit='lazygit'
 alias cls='clear'
 alias bat='batcat'
 alias ag='antigravity'
+alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
 # --- yazi (cd into selected dir on exit) ---
 function y() {
