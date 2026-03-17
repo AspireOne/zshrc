@@ -6,6 +6,5 @@ zsh
 fzf
 ripgrep
 bat
-zoxide
 zsh-autosuggestions
 zsh-syntax-highlighting
