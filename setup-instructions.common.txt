@@ -1,0 +1,22 @@
+cd ~
+
+[ -e "$HOME/.git" ] && mv "$HOME/.git" "$HOME/.git.backup"
+[ -e "$HOME/.cfg" ] && mv "$HOME/.cfg" "$HOME/.cfg.backup"
+
+git clone --bare https://github.com/AspireOne/zshrc "$HOME/.cfg"
+
+alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+
+mkdir -p "$HOME/.config-backup"
+
+config checkout || echo "If checkout reports conflicting files, move the listed files into ~/.config-backup and run: config checkout"
+
+config config --local status.showUntrackedFiles no
+
+chmod +x "$HOME/bootstrap.sh"
+"$HOME/bootstrap.sh"
+
+exec zsh
+
+# one-liner:
+cd ~ && [ -e "$HOME/.git" ] && mv "$HOME/.git" "$HOME/.git.backup" || true; [ -e "$HOME/.cfg" ] && mv "$HOME/.cfg" "$HOME/.cfg.backup" || true; git clone --bare https://github.com/AspireOne/zshrc "$HOME/.cfg" && alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME' && mkdir -p "$HOME/.config-backup" && config checkout && config config --local status.showUntrackedFiles no && chmod +x "$HOME/bootstrap.sh" && "$HOME/bootstrap.sh" && exec zsh
