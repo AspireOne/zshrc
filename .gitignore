@@ -7,4 +7,4 @@
 !.zshrc
 !.config/
 !.config/starship/
-!.config/starship/beige.toml
+!.config/starship/*

@@ -1,0 +1,74 @@
+add_newline = false
+command_timeout = 300
+
+# Kept your format order
+format = "$directory$git_branch$git_state$git_status$golang$docker_context$aws$cmd_duration$character"
+
+[directory]
+truncation_length = 1
+fish_style_pwd_dir_length = 1
+truncate_to_repo = false
+truncation_symbol = ""
+# CHANGED: Soft neon purple
+style = "fg:#bd93f9"
+format = "[$path]($style) "
+
+[git_branch]
+symbol = ""
+# CHANGED: Bright Cyan (pops against purple)
+style = "fg:#6272a4"
+format = "[$symbol$branch]($style)"
+
+[git_state]
+style = "bold #ffb86c" # Orange-ish for state changes (rebase/merge)
+format = " [$state( $progress_current/$progress_total)]($style)"
+
+[git_status]
+use_git_executable = true
+ignore_submodules = true
+
+# CHANGED: Palette updated to match "Neon Night"
+# Conflicted = Red (#ff5555)
+# Staged     = Green (#50fa7b)
+# Modified   = Pink (#ff79c6) - fits the purple theme better than orange
+# Untracked  = Purple (#bd93f9) - subtle, less alarming than red
+# Ahead/Behind = Cyan (#8be9fd) - matches branch color
+format = "([$conflicted](fg:#ff5555)[$staged](fg:#50fa7b)[$modified](fg:#ff79c6)[$untracked](fg:#bd93f9)[$ahead_behind](fg:#8be9fd))"
+
+conflicted = " =$count"
+staged     = " +$count"
+modified   = " ~$count"
+untracked  = " ?$count"
+stashed    = ""
+
+ahead      = " ⇡$count"
+behind     = " ⇣$count"
+diverged   = " ⇕⇡${ahead_count}⇣${behind_count}"
+up_to_date = ""
+
+# --- Language & Tool Colors (Tweaked slightly for consistency) ---
+
+[golang]
+symbol = "🐹 "
+style = "fg:#8be9fd" # Cyan
+format = " [$symbol$version]($style)"
+
+[docker_context]
+symbol = "🐳 "
+style = "fg:#6272a4" # Muted Blue/Grey
+format = " [$symbol$context]($style)"
+
+[aws]
+symbol = "☁ "
+style = "fg:#ffb86c" # Orange
+format = " [$symbol$profile(\\($region\\))]($style)"
+
+[cmd_duration]
+min_time = 2000
+style = "bold #f1fa8c" # Yellow
+format = " [$duration]($style)"
+
+[character]
+# CHANGED: Hot Pink for the arrow to finish the "purple" look
+success_symbol = " [❯](fg:#ff79c6)"
+error_symbol   = " [❯](fg:#ff5555)"
