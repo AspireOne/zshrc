@@ -8,9 +8,10 @@
 !.config/
 !.config/starship/
 !.config/starship/*
+!.config/nvim/
+!.config/nvim/*
+!.config/nvim/**/*
 !tools-specific.common.txt
 !tools.common.txt
 !apt-packages.common.txt
 !setup-instructions.common.txt
-!.config/nvim/
-!.config/nvim/*
