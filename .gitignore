@@ -12,3 +12,5 @@
 !tools.common.txt
 !apt-packages.common.txt
 !setup-instructions.common.txt
+!.config/nvim/
+!.config/nvim/*
