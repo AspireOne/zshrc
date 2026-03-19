@@ -2,6 +2,7 @@
 set -euo pipefail
 
 APT_FILE="$HOME/apt-packages.common.txt"
+NPM_GLOBAL_FILE="$HOME/npm-global-packages.common.txt"
 TOOLS_FILE="$HOME/tools.common.txt"
 
 have() {
@@ -26,11 +27,39 @@ ensure_bootstrap_deps() {
   fi
 }
 
+ensure_npm_available() {
+  if have npm; then
+    return 0
+  fi
+
+  export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
+  if [ -s "$NVM_DIR/nvm.sh" ]; then
+    # Load nvm so npm is available in this non-interactive bootstrap shell.
+    . "$NVM_DIR/nvm.sh"
+  fi
+
+  have npm
+}
+
 install_apt_packages() {
   [ -f "$APT_FILE" ] || return 0
 
   sudo apt-get update
   list_file_lines "$APT_FILE" | xargs -r sudo apt-get install -y
+}
+
+install_npm_global_packages() {
+  [ -f "$NPM_GLOBAL_FILE" ] || return 0
+
+  if ! ensure_npm_available; then
+    echo "Skipping npm global packages: npm is not installed or not on PATH." >&2
+    return 0
+  fi
+
+  mapfile -t packages < <(list_file_lines "$NPM_GLOBAL_FILE")
+  [ "${#packages[@]}" -gt 0 ] || return 0
+
+  npm install -g "${packages[@]}"
 }
 
 run_tools_common() {
@@ -57,6 +86,7 @@ main() {
   ensure_dirs
   ensure_bootstrap_deps
   install_apt_packages
+  install_npm_global_packages
   run_tools_common
   ensure_zsh_default
 

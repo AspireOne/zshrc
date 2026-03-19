@@ -1,0 +1,4 @@
+# Global npm CLI tools
+# One package spec per line. Comments and blank lines are allowed.
+@aspireone/terminal-ai
+@openai/codex
