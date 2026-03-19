@@ -27,18 +27,18 @@ ensure_bootstrap_deps() {
   fi
 }
 
-ensure_npm_available() {
-  if have npm; then
+ensure_node_package_manager_available() {
+  if have pnpm || have npm; then
     return 0
   fi
 
   export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
   if [ -s "$NVM_DIR/nvm.sh" ]; then
-    # Load nvm so npm is available in this non-interactive bootstrap shell.
+    # Load nvm so node package managers are available in this non-interactive bootstrap shell.
     . "$NVM_DIR/nvm.sh"
   fi
 
-  have npm
+  have pnpm || have npm
 }
 
 install_apt_packages() {
@@ -51,13 +51,18 @@ install_apt_packages() {
 install_npm_global_packages() {
   [ -f "$NPM_GLOBAL_FILE" ] || return 0
 
-  if ! ensure_npm_available; then
-    echo "Skipping npm global packages: npm is not installed or not on PATH." >&2
+  if ! ensure_node_package_manager_available; then
+    echo "Skipping npm global packages: neither pnpm nor npm is installed or on PATH." >&2
     return 0
   fi
 
   mapfile -t packages < <(list_file_lines "$NPM_GLOBAL_FILE")
   [ "${#packages[@]}" -gt 0 ] || return 0
+
+  if have pnpm; then
+    pnpm add -g "${packages[@]}"
+    return 0
+  fi
 
   npm install -g "${packages[@]}"
 }
