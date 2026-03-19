@@ -16,3 +16,5 @@
 !apt-packages.common.txt
 !setup-instructions.common.txt
 !npm-global-packages.common.txt
+!.ai/
+!.ai/*

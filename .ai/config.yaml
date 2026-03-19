@@ -1,0 +1,7 @@
+provider: openai
+providers:
+  openai:
+    type: openai
+    name: openai
+    baseURL: https://api.openai.com/v1/
+    model: gpt-5.4
