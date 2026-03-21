@@ -1,8 +1,21 @@
--- Autocmds are automatically loaded on the VeryLazy event
--- Default autocmds that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/autocmds.lua
---
--- Add any additional autocmds here
--- with `vim.api.nvim_create_autocmd`
---
--- Or remove existing autocmds by their group name (which is prefixed with `lazyvim_` for the defaults)
--- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
+local platform = require("config.platform")
+
+if platform.clipboard_register then
+  local clipboard_group = vim.api.nvim_create_augroup("system_clipboard_yank", { clear = true })
+
+  vim.api.nvim_create_autocmd("TextYankPost", {
+    group = clipboard_group,
+    callback = function()
+      if vim.v.event.operator ~= "y" then
+        return
+      end
+
+      local regname = vim.v.event.regname
+      if regname == "" then
+        regname = '"'
+      end
+
+      vim.fn.setreg(platform.clipboard_register, vim.fn.getreg(regname), vim.fn.getregtype(regname))
+    end,
+  })
+end
